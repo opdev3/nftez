@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ZeroTerminal</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="icon" type="image/png" href="./logo.png"/>
+    
+    <!--<link rel="stylesheet" href="./css/bulma.min.css"/>-->
+    <!--<link rel="stylesheet" href="./css/animate.min.css"/>-->
+    <!--<link rel="stylesheet" href="./css/fontawesome.all.min.css"/>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"/>-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.4/dist/css/bulma-switch.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
+
+    <!--<script src="./js/walletbeacon-2.3.13.min.js"></script>-->
+    <!--<script src="./js/bulma-toast.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/bulma-toast@2.4.2/dist/bulma-toast.min.js"></script>
+    <!--<script src="https://unpkg.com/@airgap/beacon-sdk@2.3.13/dist/walletbeacon.min.js"></script>-->
+    <script src="https://unpkg.com/@airgap/beacon-sdk@4.3.3/dist/walletbeacon.min.js"></script>
+
+    <style>
+        .is-collapsible {
+            height: auto;
+            max-height: 0;
+            overflow-y: hidden;
+            transition: max-height 0.2s ease;
+        }
+        .is-collapsible.is-active {
+            max-height: 1200px !important;
+        }
+
+        .faq {
+            border: 1px solid grey;
+            border-radius: 10px;
+            padding: 0.25rem;
+        }
+        .faq-body {
+            border: 0;
+        }
+        
+        .copy-item {
+            cursor: copy;
+        }
+        .copy-item:hover {
+            background-color: #F5F5F5;
+        }
+
+        @font-face {
+            font-family: "OCR A Std"; 
+            src: url(ocrastd.otf);
+        }
+
+        .is-256x256 {
+            width: 256px;
+            height: 256px;
+        }
+
+        .overflow-ellipsis {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .grid-collections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 16px;
+        }
+        .grid-tokens {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+            gap: 16px;
+        }
+        
+        body, button, input, optgroup, select, textarea {
+            min-width: 80px;
+            font-family: "OCR A Std";
+            font-weight: 400;
+        }
+
+        .title, .button, .field-label {
+            text-transform: uppercase;
+        }
+        
+        .field-label, .field-body {
+            flex-basis: auto;
+            flex-grow: 0;
+        }
+        
+        .modal-card-foot, .modal-card-head {
+            text-transform: uppercase;
+            background-color: #FFFFFF;
+            border-top: 0;
+            border-bottom: 0;
+        }
+        
+        .delete, .modal-close {
+            background-color: #FFFFFF;
+            border: none;
+            height: 30px;
+            max-height: 30px;
+            max-width: 30px;
+            min-height: 30px;
+            min-width: 30px;
+            width: 30px;
+        }
+        .delete::after, .delete::before, .modal-close::after, .modal-close::before {
+            background-color: #565656;
+        }
+        
+    </style>
+
+    <script>
+        //const GRAY_RECT = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAMSURBVBhXYzh8+DAABJYCSsTDBsYAAAAASUVORK5CYII=";
+        //<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><circle r="5" cx="5" cy="5" fill="#f5f5f5"/></svg>
+        //const GRAY_CIRCLE = "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PScwIDAgMTAgMTAnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGNpcmNsZSByPSc1JyBjeD0nNScgY3k9JzUnIGZpbGw9JyNmNWY1ZjUnIC8+PC9zdmc+";
+        //<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10" x="0" y="0" fill="#f5f5f5"/></svg>
+        const GRAY_RECT = "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PScwIDAgMTAgMTAnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyB4PScwJyB5PScwJyBmaWxsPScjZjVmNWY1Jy8+PC9zdmc+";
+    </script>
+</head>
+
+
+<body>
+    
+<div class="container">
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand ml-0 mr-5">
+        <div class="navbar-item">
+            <img class="is-clickable is-unselectable" src="logo.png" onclick="window.location.search=''"/>
+            <p class="is-hidden title has-text-black is-3 is-clickable is-unselectable" onclick="window.location.search=''">ZeroTerminal
+                <sup id="titleNetwork" class="has-text-grey-dark has-text-weight-light is-size-7">&nbsp;mainnet</sup>
+            </p>
+        </div>
+        <div id="btnBurger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="true" data-target="navbarMenu"
+             onclick="this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </div>
+    </div>
+    <div id="navbarMenu" class="navbar-menu mx-0 has-text-weight-semibold">
+        <div class="navbar-start">
+            <div class="navbar-item m-1 has-dropdown is-hoverable">
+                <a class="navbar-item is-uppercase">Explore</a>
+                <div class="navbar-dropdown">
+                    <a id="btnMenuTokens" class="navbar-item">Tokens</a>
+                    <a id="btnMenuCollections" class="navbar-item">Collections</a>
+                    <a id="btnMenuListings" class="navbar-item">Listings</a>
+                </div>
+            </div>
+            <a id="btnMenuSearch" class="navbar-item m-1 is-uppercase">Search</a>
+            <div class="navbar-item m-1 has-dropdown is-hoverable">
+                <a id="btnMenuCreate" class="navbar-item is-uppercase">Create</a>
+                <div class="navbar-dropdown">
+                    <a id="btnMenuNewToken" class="navbar-item">Token</a>
+                    <a id="btnMenuNewCollection" class="navbar-item">Collection</a>
+                </div>
+            </div>
+            <a id="btnMenuInfo" class="navbar-item m-1 is-uppercase">Info</a>
+        </div>
+
+        <div class="navbar-end ">
+            <div class="navbar-item m-1 has-dropdown is-hoverable">
+                <a class="navbar-item has-text-weight-semibold">
+                    <span class="icon pr-2"><i class="fa-solid fa-gear"></i></span>
+                </a>
+                <div class="navbar-dropdown"> <!--style="pointer-events: none;"-->
+                    <a id="btnMenuMainnet" class="navbar-item" href="https://opdev3.github.io/nftez/index.html">
+                        <span id="iconMainnetNotActive" class="icon mr-1 is-hidden"><i class="fa-regular fa-circle"></i></span>
+                        <span id="iconMainnetActive" class="icon mr-1 is-hidden"><i class="fa-regular fa-circle-dot"></i></span>
+                        mainnet
+                    </a>
+                    <a id="btnMenuTestnet" class="navbar-item" href="https://gotch1.github.io/nftez/testnet/index.html">
+                        <span id="iconTestnetNotActive" class="icon mr-1 is-hidden"><i class="fa-regular fa-circle"></i></span>
+                        <span id="iconTestnetActive" class="icon mr-1 is-hidden"><i class="fa-regular fa-circle-dot"></i></span>
+                        testnet
+                    </a>
+                </div>
+            </div>
+
+            <div id="divConnect" class="navbar-item has-text-centered py-1">
+                <button id="btnConnect" class="button has-text-weight-semibold">Connect wallet</button>
+            </div>
+            <div id="divDisconnect" class="navbar-item has-dropdown is-hoverable is-hidden">
+                <a class="navbar-item has-text-weight-semibold">
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
+                    <span id="aAddress"></span>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    <a id="btnMenuCopyAddress" class="navbar-item">
+                        <span class="icon pr-2"><i class="fa-regular fa-copy"></i></span>
+                        <span class="">Copy address</span>
+                    </a>
+                    <hr class="navbar-divider has-background-grey-lighter"/>
+                    <a id="btnMenuMyTokens" class="navbar-item">
+                        <span class="icon pr-2"><i class="fa-solid fa-square-binary"></i></span>
+                        <span>My tokens</span>
+                    </a>
+                    <a id="btnMenuMyCollections" class="navbar-item">
+                        <span class="icon pr-2"><i class="fas fa-photo-video"></i></span>
+                        <span>My collections</span>
+                    </a>
+                    <a id="btnMenuMyListings" class="navbar-item">
+                        <span class="icon pr-2"><i class="fa-solid fa-tags"></i></span>
+                        <span>My listings</span>
+                    </a>
+                    <hr class="navbar-divider has-background-grey-lighter"/>
+                    <a id="btnDisconnect" class="navbar-item">
+                        <span class="icon"><i class="fas fa-arrow-right-from-bracket"></i></span>
+                        <span>Disconnect</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</div>
+
+
+<div id="content" class="container">
+
+
+<div id="pageActiveTokens" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Active tokens</h2>
+        </div>
+    </div>
+    <div id="dActiveTokens" class="grid-tokens">
+    
+    </div>
+    <div id="dMoreActiveTokens" class="my-3 is-fullwidth has-text-centered is-hidden">
+        <button id="btnMoreActiveTokens" class="button has-text-weight-semibold">... More tokens ... </button>
+    </div>
+</div>
+
+
+<div id="pageCollections" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Collections</h2>
+        </div>
+    </div>
+    <!--<div id="dCollections" class="is-flex is-flex-wrap-wrap is-justify-content-space-evenly" style="flex-basis: 250px; gap: 16px;">-->
+    <div id="dCollections" class="grid-collections">
+
+    </div>
+    <div id="dMoreCollections" class="my-3 is-fullwidth has-text-centered is-hidden">
+        <button id="btnMoreCollections" class="button has-text-weight-semibold">... More collections ... </button>
+    </div>
+</div>
+
+
+<div id="pageNewCollection" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Create new collection</h2>
+        </div>
+    </div>
+    <div class="columns is-8">
+
+    <div class="column">
+        <div class="field">
+            <label class="label">Name:</label>
+            <div class="field-body">
+                <input id="cName" class="input" type="text" size="50" placeholder="Collection name ..."/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Description:</label>
+            <div class="field-body">
+                <textarea id="cDescription" class="textarea" placeholder="Description ..." rows="3"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Category:</label>
+            <div class="field-body">
+                <div class="select is-fullwidth">
+                    <select id="cType">
+                        <option value="" selected=""></option>
+                        <option value="art">Art</option>
+                        <option value="collectible">Collectible</option>
+                        <option value="other">Other</option>
+                    </select>   
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Authors:</label>
+            <div class="field-body">
+                <input id="cAuthors" class="input" type="text" placeholder="Author One, Author Two, ..."/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Addresses:</label>
+            <div class="field-body">
+                <input id="cAddresses" class="input" type="text" placeholder="Author One address, Author Two address, ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-hidden">
+            <div class="field-label is-normal">
+                <label class="label">Symbol:</label>
+            </div>
+            <div class="field-body">
+                <input id="cSymbol" class="input" type="text" disabled="" placeholder="Symbol ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-hidden">
+            <div class="field-label is-normal">
+                <label class="label">Interfaces:</label>
+            </div>
+            <div class="field-body">
+                <input id="cInterfaces" class="input" type="text" disabled="" placeholder="Interfaces ..." value="TZIP-012, TZIP-016"/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Creators:</label>
+            <div class="field-body">
+                <input id="cCreators" class="input" type="text" size="35" disabled="" placeholder="Creator One address, Creator Two address, ..."/>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="field">
+            <label class="label">Logo:</label>
+            <div class="field is-horizontal mb-1 is-flex is-flex-wrap-nowrap">
+                <div class="file has-name is-fullwidth mr-1" style="width: 100%">
+                    <label class="file-label">
+                        <input id="cFile" class="file-input" type="file" accept="image/*"/>
+                        <span class="file-cta has-background-white">
+                            <span class="file-icon"><i class="pl-3 fas fa-upload"></i></span>
+                            <!--<span class="file-label">Choose a file ...</span>-->
+                        </span>
+                        <span id="cFileName" class="file-name">Choose a file ...</span>
+                    </label>
+                </div>
+                <button id="cFileRemove" class="button has-text-weight-semibold"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+            <div class="field is-horizontal mb-5 is-justify-content-center is-flex is-flex-wrap-nowrap">
+                <span id="cFileSize" class="is-size-7">&nbsp;</span>
+            </div>
+        </div>
+        <div class="media is-relative">
+            <figure class="media-content is-flex is-justify-content-center">
+                <p class="image is-256x256">
+                    <img id="cFileImage" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                </p>
+            </figure>
+        </div>
+        <div class="field my-5 is-flex is-justify-content-center">
+            <label class="checkbox is-size-7" disabled=""><input type="checkbox" checked="" disabled="" style="min-width: 32px;"/>Save logo on-chain</label>
+        </div>
+        <script>
+            const fileInput = document.getElementById("cFile");
+            const fileImage = document.getElementById("cFileImage");
+            fileInput.onchange = () => {
+                if (fileInput.files.length > 0) {
+                    let file = fileInput.files[0];
+                    document.getElementById("cFileName").innerHTML = file.name;
+                    let txtSize = "0 Bytes";
+                    if (file.size > 0) {
+                        let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+                        let i = Math.floor(Math.log(file.size) / Math.log(1024));
+                        txtSize = parseFloat((file.size / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i];
+                    }
+                    document.getElementById("cFileSize").innerHTML = txtSize;
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = readerEvent => {
+                        fileImage.setAttribute("src", readerEvent.target.result);
+                    };
+                } else {
+                    document.getElementById("cFileSize").innerHTML = "&nbsp;";
+                    document.getElementById("cFileName").innerHTML = "Choose a file ...";
+                    fileImage.setAttribute("src", "");
+                }
+            };
+            document.getElementById("cFileRemove").onclick = () => {
+                document.getElementById("cFileSize").innerHTML = "&nbsp;";
+                document.getElementById("cFileName").innerHTML = "Choose a file ...";
+                fileImage.setAttribute("src", "");
+            };
+        </script>
+        <div class="field my-5 is-flex is-justify-content-center">
+            <button id="btnNewCollectionCreate" class="button has-text-weight-semibold js-loggedin">Create</button>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+<div id="pageListings" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Listings</h2>
+        </div>
+    </div>
+    <div id="dListings" class="">
+    
+    </div>
+    <div id="dMoreListings" class="my-3 is-fullwidth has-text-centered is-hidden">
+        <button id="btnMoreListings" class="button has-text-weight-semibold">... More listings ... </button>
+    </div>
+</div>
+
+
+<div id="pageSearch" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item  is-justify-content-center">
+            <h2 class="title">Search</h2>
+        </div>
+    </div>
+    <div class="tabs is-boxed pb-2">
+        <ul>
+            <li id="searchListTab" class="is-active">
+                <a onclick='
+                    document.getElementById("searchTokTab").classList.remove("is-active");
+                    document.getElementById("dSearchToken").classList.add("is-hidden");
+                    document.getElementById("searchColTab").classList.remove("is-active");
+                    document.getElementById("dSearchCollection").classList.add("is-hidden");
+                    document.getElementById("searchListTab").classList.add("is-active");
+                    document.getElementById("dSearchListing").classList.remove("is-hidden");'>
+                    <span class="has-text-weight-semibold">Listings</span>
+                </a>
+            </li>
+            <li id="searchTokTab" class="">
+                <a onclick='
+                    document.getElementById("searchListTab").classList.remove("is-active");
+                    document.getElementById("dSearchListing").classList.add("is-hidden");
+                    document.getElementById("searchColTab").classList.remove("is-active");
+                    document.getElementById("dSearchCollection").classList.add("is-hidden");
+                    document.getElementById("searchTokTab").classList.add("is-active");
+                    document.getElementById("dSearchToken").classList.remove("is-hidden");'>
+                    <span class="has-text-weight-semibold">Tokens</span>
+                </a>
+            </li>
+            <li id="searchColTab" class="">
+                <a onclick='
+                    document.getElementById("searchListTab").classList.remove("is-active");
+                    document.getElementById("dSearchListing").classList.add("is-hidden");
+                    document.getElementById("searchTokTab").classList.remove("is-active");
+                    document.getElementById("dSearchToken").classList.add("is-hidden");
+                    document.getElementById("searchColTab").classList.add("is-active");
+                    document.getElementById("dSearchCollection").classList.remove("is-hidden");'>
+                    <span class="has-text-weight-semibold">Collections</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="dSearchListing" class="">
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Min. price:</label>
+            </div>
+            <div class="field-body is-flex is-flex-wrap-nowrap">
+                <input id="searchListMinPrice" class="input" type="number" min="0" style="width: 135px;"
+                       onchange="this.value = parseFloat(this.value <= Number(this.getAttribute('min')) ?
+                           '' : Math.round(this.value*10**6)/10**6)"/>
+                <span class="ml-2 pt-2 has-text-weight-semibold">&#42793;</span>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Max. price:</label>
+            </div>
+            <div class="field-body is-flex is-flex-wrap-nowrap">
+                <input id="searchListMaxPrice" class="input" type="number" min="0" style="width: 135px;"
+                       onchange="this.value = parseFloat(this.value <= Number(this.getAttribute('min')) ?
+                           '' : Math.round(this.value*10**6)/10**6)"/>
+                <span class="ml-2 pt-2 has-text-weight-semibold">&#42793;</span>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Address:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchListAddress" class="input" type="text" size="35" placeholder="Token or collection address ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center is-hidden">
+            <div class="field-label is-normal">
+                <label class="label">Seller:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchListSeller" class="input" type="text" size="35" placeholder="Seller address ..."/>
+            </div>
+        </div>
+    </div>
+    <div id="dSearchToken" class="is-hidden">
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Name:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchTokName" class="input" type="text" size="40" placeholder="Token name ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Creator:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchTokCreators" class="input" type="text" size="35" placeholder="Creator address ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Tag:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchTokTags" class="input" type="text" size="30" placeholder="Tag ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Type:</label>
+            </div>
+            <div class="field-body">
+                <div class="select is-fullwidth">
+                    <select id="searchTokType">
+                        <option value="" selected="">All types</option>
+                        <option value="image">Image</option>
+                        <option value="audio">Audio</option>
+                        <option value="video">Video</option>
+                    </select>   
+                </div>
+            </div>
+        </div>
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Minter:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchTokMinter" class="input" type="text" size="35" placeholder="Minter address ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-hidden">
+        </div>
+    </div>
+    <div id="dSearchCollection" class="is-hidden">
+        <div class="field is-horizontal is-justify-content-center">
+            <div class="field-label is-normal">
+                <label class="label">Creator:</label>
+            </div>
+            <div class="field-body">
+                <input id="searchColCreator" class="input" type="text" size="35" placeholder="Creator address ..."/>
+            </div>
+        </div>
+        <div class="field is-horizontal is-hidden">
+        </div>
+    </div>
+    <div class="buttons p-5 is-justify-content-center">
+        <button id="btnSearch" class="button has-text-weight-semibold">Search</button>
+    </div>
+</div>
+
+
+<div id="pageTokens" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Tokens</h2>
+        </div>
+    </div>
+    <div id="dTokens" class="grid-tokens">
+    
+    </div>
+    <div id="dMoreTokens" class="my-3 is-fullwidth has-text-centered is-hidden">
+        <button id="btnMoreTokens" class="button has-text-weight-semibold">... More tokens ... </button>
+    </div>
+</div>
+
+
+<div id="pageNewToken" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Mint new on-chain NFT</h2>
+        </div>
+    </div>
+    <div class="columns">
+
+    <div class="column">
+        <div class="field">
+            <label class="label">Collection:</label>
+            <div class="field-body">
+                <div class="select is-fullwidth">
+                    <select id="nftCollection">
+                        <option value="" selected=""></option>
+                    </select>   
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Name:</label>
+            <div class="field-body">
+                <input id="nftName" class="input" type="text" placeholder="NFT name ..."/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Description:</label>
+            <div class="field-body">
+                <textarea id="nftDescription" class="textarea" placeholder="Description ..." rows="3"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Tags:</label>
+            <div class="field-body">
+                <input id="nftTags" class="input" type="text" placeholder="tag1, tag2, tag3 ..."/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Creators:</label>
+            <div class="field-body">
+                <input id="nftCreators" class="input" type="text" size="35" placeholder="Creator One address, Creator Two address, ..."/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Editions:</label>
+            <div class="field-body">
+                <input id="nftEditions" class="input" type="number" min="1" max="10000" step="1" value="1"
+                       onchange="this.value=parseFloat(this.value<0?1:(this.value>10000?10000:this.value)).toFixed(0)"/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Royalties:</label>
+            <div class="field-body is-flex is-flex-wrap-wrap">
+                <div class="field is-horizontal mr-0 mb-2 is-hidden is-flex is-flex-wrap-nowrap js-royalties-line-template" style="width: 100%">
+                    <input class="input js-royalties-data-value" type="number" min="0.1" max="25" step="0.1" value="0.1" style="width: 145px;"
+                        onchange="this.value = parseFloat(this.value < Number(this.getAttribute('min')) ? Number(this.getAttribute('min')) :
+                                    (this.value > Number(this.getAttribute('max')) ? Number(this.getAttribute('max')) : this.value)).toFixed(1)"/>
+                    <span class="ml-1 mr-3 pt-2 has-text-weight-semibold">%</span>
+                    <input class="input mr-1 js-royalties-data-address" type="text" placeholder="Address ..."/>
+                    <button class="button has-text-weight-semibold" onclick="this.parentNode.remove();"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+                <div class="field is-horizontal mr-0 mb-2 is-flex is-flex-wrap-nowrap" style="width: 100%">
+                    <button id="btnAddRoyaltyLine" class="button has-text-weight-semibold"><i class="fa-solid fa-plus"></i></button>
+                    <script>
+                        const jsRoyaltiesLine = document.getElementById("pageNewToken").querySelector(".js-royalties-line-template");
+                        const btnAddRoyaltyLine = document.getElementById("btnAddRoyaltyLine");
+                        btnAddRoyaltyLine.onclick = () => {
+                            let el = jsRoyaltiesLine.cloneNode(true);
+                            el.classList.remove("is-hidden");
+                            el.classList.remove("js-royalties-line-template");
+                            el.classList.add("js-royalties-line-data");
+                            jsRoyaltiesLine.before(el);
+                        };
+                    </script>
+                    <span class="is-size-7 ml-5 pt-3">Total:&nbsp;25%</span>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Rights:</label>
+            <div class="field-body">
+                <input id="nftRights" class="input" type="text" size="40" placeholder="License ..." value="No License / All Rights Reserved"/>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Attributes:</label>
+            <div class="field-body is-flex is-flex-wrap-wrap">
+                <div class="field is-horizontal mr-0 mb-2 is-flex is-flex-wrap-nowrap is-hidden js-attributes-line-template" style="width: 100%">
+                    <input class="input mr-1 js-attributes-data-name" type="text" placeholder="Name ..."/>
+                    <span class="mx-1 pt-2 has-text-weight-semibold">:</span>
+                    <input class="input mr-1 js-attributes-data-value" type="text" placeholder="Value ..."/>
+                    <button class="button has-text-weight-semibold" onclick="this.parentNode.remove();"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+                <div class="field is-horizontal mr-0 mb-2 is-flex is-flex-wrap-nowrap" style="width: 100%">
+                    <button id="btnAddAttributeLine" class="button has-text-weight-semibold"><i class="fa-solid fa-plus"></i></button>
+                    <script>
+                        const jsAttributesLine = document.getElementById("pageNewToken").querySelector(".js-attributes-line-template");
+                        const btnAddAttributeLine = document.getElementById("btnAddAttributeLine");
+                        btnAddAttributeLine.onclick = () => {
+                            let el = jsAttributesLine.cloneNode(true);
+                            el.classList.remove("is-hidden");
+                            el.classList.remove("js-attributes-line-template");
+                            el.classList.add("js-attributes-line-data");
+                            jsAttributesLine.before(el);
+                        };
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="field is-hidden">
+            <label class="label">Decimals:</label>
+            <div class="field-body">
+                <input id="nftDecimals" class="input" type="text" disabled="" value="0"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="field">
+            <label class="label">Media:</label>
+            <div class="field is-horizontal mb-1 is-flex is-flex-wrap-nowrap">
+                <div class="file has-name is-fullwidth mr-1" style="width: 100%">
+                    <label class="file-label">
+                        <input id="nftFile" class="file-input" type="file"/>
+                        <span class="file-cta has-background-white">
+                            <span class="file-icon"><i class="pl-3 fas fa-upload"></i></span>
+                            <!--<span class="file-label">Choose a file ...</span>-->
+                        </span>
+                        <span id="nftFileName" class="file-name">Choose a file ...</span>
+                    </label>
+                </div>
+                <button id="nftFileRemove" class="button has-text-weight-semibold"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+            <div class="field is-horizontal mb-5 is-justify-content-center is-flex is-flex-wrap-nowrap">
+                <span id="nftFileSize" class="is-size-7">&nbsp;</span>
+            </div>
+        </div>
+        <div class="media is-relative">
+            <figure class="media-content is-flex is-justify-content-center">
+                <p class="image is-256x256">
+                    <img id="nftFileImage" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                </p>
+            </figure>
+        </div>
+        <div class="field my-4 is-flex is-justify-content-center">
+            <label class="checkbox is-size-7" disabled=""><input type="checkbox" checked="" disabled="" style="min-width: 32px;"/>Save media on-chain</label>
+        </div>
+        <div class="field">
+            <label class="label is-hidden">MIME type:</label>
+            <div class="field-body">
+                <input id="nftType" class="input" type="text" placeholder="MIME type ..." disabled=""/>
+            </div>
+        </div>
+        <script>
+            const nftFile = document.getElementById("nftFile");
+            const nftImage = document.getElementById("nftFileImage");
+            const nftType = document.getElementById("nftType")
+            nftFile.onchange = () => {
+                if (nftFile.files.length > 0) {
+                    let file = nftFile.files[0]; 
+                    document.getElementById("nftFileName").innerHTML = file.name;
+                    nftType.value = file.type;
+                    let txtSize = "0 Bytes";
+                    if (file.size > 0) {
+                        let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+                        let i = Math.floor(Math.log(file.size) / Math.log(1024));
+                        txtSize = parseFloat((file.size / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i];
+                    }
+                    document.getElementById("nftFileSize").innerHTML = txtSize;
+                    let reader = new FileReader();
+                    reader.onload = readerEvent => {
+                        nftImage.setAttribute("src", readerEvent.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    nftType.value = "";
+                    document.getElementById("nftFileSize").innerHTML = "&nbsp;";
+                    document.getElementById("nftFileName").innerHTML = "Choose a file ...";
+                    nftImage.setAttribute("src", "");
+                }
+            };
+            document.getElementById("nftFileRemove").onclick = () => {
+                nftType.value = "";
+                document.getElementById("nftFileSize").innerHTML = "&nbsp;";
+                document.getElementById("nftFileName").innerHTML = "Choose a file ...";
+                nftImage.setAttribute("src", "");
+            };
+        </script>
+        <div class="field my-5 is-flex is-justify-content-center">
+            <button id="btnNewTokenCreate" class="button has-text-weight-semibold js-loggedin">Mint</button>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+<div id="pageToken" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Token</h2>
+        </div>
+    </div>
+    <div id="dToken" class="columns">
+
+    <div class="column">
+        <div class="field">
+            <p class="title is-size-4 is-spaced js-name"></p>
+            <p class="js-description"></p>
+        </div>
+        <div class="field is-horizontal my-5">
+            <!--<label class="label">Tags:</label>-->
+            <div class="field-body">
+                <span class="tags"><a class="tag is-hidden"></a></span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">Balance:</label>
+            <div class="field-body">
+                <span class="has-text-weight-semibold js-balance"></span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">Editions:</label>
+            <div class="field-body">
+                <span class="js-editions"></span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">Creators:</label>
+            <div class="field-body">
+                <span class="js-creators">
+                    <a class="is-hidden js-creator"><span class="icon"><i class="fa-solid fa-user"></i></span></a>
+                </span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">Minted:</label>
+            <div class="field-body">
+                <span class="js-firsttime"></span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">MIME type:</label>
+            <div class="field-body">
+                <span class="js-type"></span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">Token ID:</label>
+            <div class="field-body">
+                <span class="js-tokenid"></span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <label class="label mr-3">Collection:</label>
+            <div class="field-body">
+                <a class="js-contract"><span class="icon mr-1"><i class="fas fa-photo-video"></i></span></a>
+                <span class="is-size-7 ml-1 js-contract-copy copy-item"><span class="icon"><i class="fa-regular fa-copy"></i></span></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="column">
+        <div class="media is-relative">
+            <figure class="media-content is-flex is-justify-content-center" style="overflow: clip;">
+                <p class="image is-256x256">
+                    <img class="is-hidden js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                    <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
+                    <audio class="is-hidden mt-5 js-audio" controls style="width: 250px;"></audio>
+                    <video class="is-hidden mt-5 js-video" autoplay loop controls muted></video>
+                </p>
+            </figure>
+        </div>
+        <div class="field my-5 is-flex is-justify-content-center">
+            <div class="buttons">
+                <button id="btnTokenList" class="button has-text-weight-semibold js-loggedin">List</button>
+                <button id="btnTokenBurn" class="button has-text-weight-semibold js-loggedin">Burn</button>
+                <button id="btnTokenTransfer" class="button has-text-weight-semibold js-loggedin">Send</button>
+                <button id="btnTokenBuy" class="button has-text-weight-semibold js-loggedin" disabled=""><i class="fa-solid fa-cart-shopping mr-2"></i></button>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+<div id="mListToken" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head has-text-centered">
+            <p class="modal-card-title ml-5">List</p>
+            <button id="bListTokenClose" class="delete" onclick="document.getElementById('mListToken').classList.remove('is-active');"></button>
+        </header>
+        <div class="modal-card-body">
+            <div class="field is-horizontal is-justify-content-center">
+                <div class="field-label is-normal">
+                    <label class="label">List:</label>
+                </div>
+                <div class="field-body">
+                    <input id="mListTokenAmount" class="input" type="number" min="1" max="1" value="1"
+                           onchange="this.value = parseFloat(this.value < Number(this.getAttribute('min')) ? Number(this.getAttribute('min')) :
+                                        (this.value > Number(this.getAttribute('max')) ? Number(this.getAttribute('max')) : this.value)).toFixed(0)"/>
+                </div>
+            </div>
+            <div class="field is-horizontal is-justify-content-center">
+                <div class="field-label is-normal">
+                    <label class="label">Price:</label>
+                </div>
+                <div class="field-body is-flex is-flex-wrap-nowrap">
+                    <input id="mListTokenPrice" class="input" type="number" min="0" value="0.0" style="width: 120px;"
+                           onchange="this.value = parseFloat(this.value < Number(this.getAttribute('min')) ?
+                               Number(this.getAttribute('min')) : Math.round(this.value*10**6)/10**6)"/>
+                    <span class="ml-2 pt-2 has-text-weight-semibold">&#42793;</span>
+                </div>
+            </div>
+            <div class="field is-horizontal is-justify-content-center">
+                <div class="field-label is-normal">
+                    <label class="label">Start time:</label>
+                </div>
+                <div class="field-body">
+                    <input id="mListTokenStartTiime" class="input" type="datetime-local" style="width: auto;"/><sub class="ml-2 pt-2">(optional)</sub>
+                </div>
+            </div>
+        </div>
+        <footer class="modal-card-foot is-justify-content-center">
+            <button id="btnListTokenList" class="button has-text-weight-semibold" style="min-width: 50%;">List</button>
+        </footer>
+    </div>
+</div>    
+
+
+<div id="mBurnToken" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head has-text-centered">
+            <p class="modal-card-title ml-5">Burn</p>
+            <button id="bBurnTokenClose" class="delete" onclick="document.getElementById('mBurnToken').classList.remove('is-active');"></button>
+        </header>
+        <div class="modal-card-body">
+            <div class="field is-horizontal is-justify-content-center">
+                <div class="field-label is-normal">
+                    <label class="label">Amount to burn:</label>
+                </div>
+                <div class="field-body">
+                    <input id="mBurnTokenAmount" class="input" type="number" min="1" max="1" value="1"
+                           onchange="this.value = parseFloat(this.value < Number(this.getAttribute('min')) ? Number(this.getAttribute('min')) :
+                                        (this.value > Number(this.getAttribute('max')) ? Number(this.getAttribute('max')) : this.value)).toFixed(0)"/>
+                </div>
+            </div>
+        </div>
+        <footer class="modal-card-foot is-justify-content-center">
+            <button id="btnBurnTokenBurn" class="button has-text-weight-semibold" style="width: 50%">Burn</button>
+        </footer>
+    </div>
+</div>
+
+
+<div id="mTransferToken" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head has-text-centered">
+            <p class="modal-card-title ml-5">Send</p>
+            <button id="bTransferTokenClose" class="delete has-text-primary-dark" onclick="document.getElementById('mTransferToken').classList.remove('is-active');">x</button>
+        </header>
+        <div class="modal-card-body">
+            <div class="field is-horizontal is-justify-content-center">
+                <div class="field-label is-normal">
+                    <label class="label">Amount:</label>
+                </div>
+                <div class="field-body">
+                    <input id="mTransferTokenAmount" class="input" type="number" min="1" max="1" value="1"
+                           onchange="this.value = parseFloat(this.value < Number(this.getAttribute('min')) ? Number(this.getAttribute('min')) :
+                                        (this.value > Number(this.getAttribute('max')) ? Number(this.getAttribute('max')) : this.value)).toFixed(0)"/>
+                </div>
+            </div>
+            <div class="field is-horizontal is-justify-content-center">
+                <div class="field-label is-normal">
+                    <label class="label is-flex">Send to:</label>
+                </div>
+                <div class="field-body">
+                    <input id="mTransferTokenAddressTo" class="input" size="35" type="text" placeholder="Destination address..."/>
+                </div>
+            </div>
+        </div>
+        <footer class="modal-card-foot is-justify-content-center">
+            <button id="btnTransferTokenTransfer" class="button has-text-weight-semibold" style="min-width: 50%;">Send</button>
+        </footer>
+    </div>
+</div>    
+
+
+<div id="pageInfo" class="mt-5 p-3 is-hidden js-page">
+    <div class="level">
+        <div class="level-item is-justify-content-center">
+            <h2 class="title">Info</h2>
+        </div>
+        <div class="buttons">
+            <a class="has-text-black-ter" href="https://github.com/opdev3/nftez" target="_blank">
+                <span class="icon is-size-5"><i class="fa-brands fa-github"></i></span>
+            </a>
+        </div>
+    </div>
+    <div class="is-fullwidth">
+    
+    <article class="message has-background-white faq">
+        <div class="js-faq-item message-header is-clickable has-text-black has-background-white">
+            <p>What is ZeroTerminal?</p>
+            <span class="icon"><i class="fas fa-angle-up" aria-hidden="true"></i></span>
+        </div>
+        <div class="is-collapsible">
+            <div class="message-body has-background-white faq-body">
+                <p>It is a decentralized app allowing you to interact with Tezos blockchain data. For now it is aimed mostly for onchain art. This terminal eliminates any 3rd party between a user and the Tezos blockchain.</p>
+                <br/>
+                <p>We got two versions available for you. One is deployed on the website, another you can download and open and run on your computer. The latter just allows you not to rely on our servers. Use Testnet-Mainnet selector to choose active network you want to work with.</p>
+            </div>
+        </div>
+    </article>
+    
+    <article class="message has-background-white faq">
+        <div class="js-faq-item message-header is-clickable has-text-black has-background-white">
+            <p>What I can do with it?</p>
+            <span class="icon"><i class="fas fa-angle-up" aria-hidden="true"></i></span>
+        </div>
+        <div class="is-collapsible">
+            <div class="message-body has-background-white faq-body">
+                <p>You can mint/list/buy/search/burn/transfer any artwork you want to see being inscribed into Tezos blockchain. The block size (~20KB) is the only limit!</p>
+            </div>
+        </div>
+    </article>
+
+    <article class="message has-background-white faq">
+        <div class="js-faq-item message-header is-clickable has-text-black has-background-white">
+            <p>Why onchain art, if I can use any other platform to mint files larger than 20KB?</p>
+            <span class="icon"><i class="fas fa-angle-up" aria-hidden="true"></i></span>
+        </div>
+        <div class="is-collapsible">
+            <div class="message-body has-background-white faq-body">
+                <p>Strictly speaking nothing can abstain you from using other platforms, but from ideological and scientific standpoint most of the art you can see minted is just a link to IPFS data. You never own the data of your NFT, but a link. Let's say, when you burn an NFT the art continues to exist. And that is a problem, because you don't have any control over the data you deployed.</p>
+                <br/>
+                <p>Zero Contract was made to revive the original idea of the Cypherpunk movement 'Your keys – your data'. Also 20KB limit revives here the principles of compressionism. Because the essence of the art is to say more meanwhile speaking less.</p>
+            </div>
+        </div>
+    </article>
+
+    <article class="message has-background-white faq">
+        <div class="js-faq-item message-header is-clickable has-text-black has-background-white">
+            <p>I got a question or suggestion!</p>
+            <span class="icon"><i class="fas fa-angle-up" aria-hidden="true"></i></span>
+        </div>
+        <div class="is-collapsible">
+            <div class="message-body has-background-white faq-body">
+                <p>Well, you can reach me out there <a href="mailto:ccubetez@proton.me">ccubetez@proton.me</a></p>
+            </div>
+        </div>
+    </article>
+
+    </div>
+    <footer class="footer mt-5 py-3 has-background-white">
+        <div class="content is-size-7 has-text-centered">
+            <p>Data provided by <a href="https://tzkt.io/">TzKT</a> API</p>
+        </div>
+    </footer>
+</div>
+
+
+</div>
+
+
+<template id="t-collection">
+<div class="card my-3" style="min-width: 350px; max-width: 550px;">
+    <div class="card-content p-3">
+        <div class="media is-relative">
+            <figure class="media-left">
+                <a class="js-collection-item" href="">
+                    <p class="image is-128x128">
+                        <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                    </p>
+                </a>
+            </figure>
+            <div class="media-content is-fullwidth">
+                <a class="js-collection-item" href=""><span class="subtitle has-text-weight-semibold js-name"></span></a>
+                <br/><span class="is-size-7 pt-2 pb-1 js-address copy-item"><span class="icon"><i class="fa-regular fa-copy"></i></span></span>
+                <p class="is-hidden js-description"></p>
+            </div>
+            <p class="is-size-7 is-pulled-right" style="position: absolute; bottom: 0; right: 0;">Items: <span class="has-text-weight-semibold js-count"></span></p>
+        </div>
+    </div>
+</div>
+</template>
+
+
+<template id="t-token">
+<div class="card my-3" style="min-width: 256px; max-width: 256px;">
+    <div class="card-image">
+        <a class="js-token-item" href="">
+            <p class="image is-256x256">
+                <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
+                <span class="icon is-large m-3 is-hidden js-audio"><i class="fa-solid fa-music is-size-1"></i></span>
+                <span class="icon is-large m-3 is-hidden js-video"><i class="fa-solid fa-film is-size-1"></i></span>
+            </p>
+        </a>
+    </div>
+    <div class="card-content p-3">
+        <div class="is-flex is-flex-direction-column">
+            <a class="js-token-item" href=""><span class="has-text-weight-semibold js-name"></span></a>
+            <span class="is-size-7 is-hidden js-description"></span>
+            <span class="is-size-7 js-creators is-flex is-flex-wrap-nowrap" style="max-width: 225px; overflow: hidden;">
+                <a class="is-hidden js-creator overflow-ellipsis"><span class="icon"><i class="fa-solid fa-user"></i></span></a>
+            </span>
+            <div class="mt-2">
+                <span class="is-hidden"><span class="has-text-weight-semibold js-price"></span>&nbsp;&#42793;</span>
+                <span class="is-size-7 is-pulled-right">Editions:&nbsp;<span class="has-text-weight-semibold js-count"></span></span>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+    
+<template id="t-listing">
+    <div class="py-3 m-0 js-listing" style="border-top: 2px solid #f5f5f5;">
+        <article class="media">
+            <figure class="media-left">
+                <a class="js-token-item" href="">
+                    <p class="image is-128x128 has-text-centered">
+                        <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                        <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
+                        <span class="icon is-large mt-2 is-hidden js-audio"><i class="fa-solid fa-music is-size-1"></i></span>
+                        <span class="icon is-large mt-2 is-hidden js-video"><i class="fa-solid fa-film is-size-1"></i></span>
+                    </p>
+                </a>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <a class="js-token-item" href=""><span class="has-text-weight-semibold js-name"></span></a>
+                </div>
+                <div class="content is-small">
+                    <span class="js-creators">
+                        <a class="is-hidden js-creator"><span class="icon"><i class="fa-solid fa-user"></i></span></a>
+                    </span>
+                </div>
+                <div class="content is-small">
+                    <span class="js-deates">
+                        <span class="js-start-time"></span> - <span class="js-expiry-time"></span>
+                    </span>
+                </div>
+                <div class="content">
+                    <span class="has-text-weight-semibold js-price"></span>&nbsp;&#42793;<span class="ml-5 is-small">( x<span class="js-amount"></span> )</span>
+                </div>
+            </div>
+            <div class="media-right pt-5">
+                <button class="button has-text-weight-semibold js-btn-cancel-offer"><i class="fa-regular fa-trash-can"></i></button>
+                <button class="button has-text-weight-semibold js-btn-buy"><i class="fa-solid fa-cart-shopping mr-2"></i>Buy</button>
+            </div>
+        </article>
+    </div>
+</template>
+
+
+<script type="module" src="./index.js"></script>
+
+</body>
+</html>
