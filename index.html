@@ -234,7 +234,7 @@
     
     </div>
     <div id="dMoreActiveTokens" class="my-3 is-fullwidth has-text-centered is-hidden">
-        <button id="btnMoreActiveTokens" class="button has-text-weight-semibold">... More tokens ... </button>
+        <button id="btnMoreActiveTokens" class="button has-text-weight-semibold">... More tokens ...</button>
     </div>
 </div>
 
@@ -250,7 +250,7 @@
 
     </div>
     <div id="dMoreCollections" class="my-3 is-fullwidth has-text-centered is-hidden">
-        <button id="btnMoreCollections" class="button has-text-weight-semibold">... More collections ... </button>
+        <button id="btnMoreCollections" class="button has-text-weight-semibold">... More collections ...</button>
     </div>
 </div>
 
@@ -342,6 +342,7 @@
                 <button id="cFileRemove" class="button has-text-weight-semibold"><i class="fa-regular fa-trash-can"></i></button>
             </div>
             <div class="field is-horizontal mb-5 is-justify-content-center is-flex is-flex-wrap-nowrap">
+                <span id="cFileSizeIcon" class="icon mr-2 pt-0 pb-2 is-hidden"><i class="fa-solid fa-circle-exclamation"></i></span>
                 <span id="cFileSize" class="is-size-7">&nbsp;</span>
             </div>
         </div>
@@ -358,7 +359,9 @@
         <script>
             const fileInput = document.getElementById("cFile");
             const fileImage = document.getElementById("cFileImage");
+            const cFileSizeIcon = document.getElementById("cFileSizeIcon");
             fileInput.onchange = () => {
+                cFileSizeIcon.classList.add("is-hidden");
                 if (fileInput.files.length > 0) {
                     let file = fileInput.files[0];
                     document.getElementById("cFileName").innerHTML = file.name;
@@ -367,6 +370,15 @@
                         let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
                         let i = Math.floor(Math.log(file.size) / Math.log(1024));
                         txtSize = parseFloat((file.size / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i];
+                        if (file.size > 10 * 1024) {
+                            cFileSizeIcon.classList.remove("is-hidden");
+                            cFileSizeIcon.classList.remove("has-text-danger");
+                            cFileSizeIcon.classList.add("has-text-warning");
+                            if (file.size > 15 * 1024) {
+                                cFileSizeIcon.classList.remove("has-text-warning");
+                                cFileSizeIcon.classList.add("has-text-danger");
+                            }
+                        }
                     }
                     document.getElementById("cFileSize").innerHTML = txtSize;
                     let reader = new FileReader();
@@ -381,6 +393,8 @@
                 }
             };
             document.getElementById("cFileRemove").onclick = () => {
+                fileInput.value = "";
+                cFileSizeIcon.classList.add("is-hidden");
                 document.getElementById("cFileSize").innerHTML = "&nbsp;";
                 document.getElementById("cFileName").innerHTML = "Choose a file ...";
                 fileImage.setAttribute("src", "");
@@ -405,7 +419,7 @@
     
     </div>
     <div id="dMoreListings" class="my-3 is-fullwidth has-text-centered is-hidden">
-        <button id="btnMoreListings" class="button has-text-weight-semibold">... More listings ... </button>
+        <button id="btnMoreListings" class="button has-text-weight-semibold">... More listings ...</button>
     </div>
 </div>
 
@@ -572,7 +586,7 @@
     
     </div>
     <div id="dMoreTokens" class="my-3 is-fullwidth has-text-centered is-hidden">
-        <button id="btnMoreTokens" class="button has-text-weight-semibold">... More tokens ... </button>
+        <button id="btnMoreTokens" class="button has-text-weight-semibold">... More tokens ...</button>
     </div>
 </div>
 
@@ -697,7 +711,7 @@
     <div class="column">
         <div class="field">
             <label class="label">Media:</label>
-            <div class="field is-horizontal mb-1 is-flex is-flex-wrap-nowrap">
+            <div class="field is-horizontal mb-2 is-flex is-flex-wrap-nowrap">
                 <div class="file has-name is-fullwidth mr-1" style="width: 100%">
                     <label class="file-label">
                         <input id="nftFile" class="file-input" type="file"/>
@@ -710,7 +724,8 @@
                 </div>
                 <button id="nftFileRemove" class="button has-text-weight-semibold"><i class="fa-regular fa-trash-can"></i></button>
             </div>
-            <div class="field is-horizontal mb-5 is-justify-content-center is-flex is-flex-wrap-nowrap">
+            <div class="field is-horizontal mb-4 is-justify-content-center is-flex is-flex-wrap-nowrap">
+                <span id="nftFileSizeIcon" class="icon mr-2 pt-0 pb-2 is-hidden"><i class="fa-solid fa-circle-exclamation"></i></span>
                 <span id="nftFileSize" class="is-size-7">&nbsp;</span>
             </div>
         </div>
@@ -733,8 +748,10 @@
         <script>
             const nftFile = document.getElementById("nftFile");
             const nftImage = document.getElementById("nftFileImage");
-            const nftType = document.getElementById("nftType")
+            const nftType = document.getElementById("nftType");
+            const nftFileSizeIcon = document.getElementById("nftFileSizeIcon");
             nftFile.onchange = () => {
+                nftFileSizeIcon.classList.add("is-hidden");
                 if (nftFile.files.length > 0) {
                     let file = nftFile.files[0]; 
                     document.getElementById("nftFileName").innerHTML = file.name;
@@ -744,6 +761,15 @@
                         let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
                         let i = Math.floor(Math.log(file.size) / Math.log(1024));
                         txtSize = parseFloat((file.size / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i];
+                        if (file.size > 20 * 1024) {
+                            nftFileSizeIcon.classList.remove("is-hidden");
+                            nftFileSizeIcon.classList.remove("has-text-danger");
+                            nftFileSizeIcon.classList.add("has-text-warning");
+                            if (file.size > 28 * 1024) {
+                                nftFileSizeIcon.classList.remove("has-text-warning");
+                                nftFileSizeIcon.classList.add("has-text-danger");
+                            }
+                        }
                     }
                     document.getElementById("nftFileSize").innerHTML = txtSize;
                     let reader = new FileReader();
@@ -759,7 +785,9 @@
                 }
             };
             document.getElementById("nftFileRemove").onclick = () => {
+                nftFile.value = "";
                 nftType.value = "";
+                nftFileSizeIcon.classList.add("is-hidden");
                 document.getElementById("nftFileSize").innerHTML = "&nbsp;";
                 document.getElementById("nftFileName").innerHTML = "Choose a file ...";
                 nftImage.setAttribute("src", "");
