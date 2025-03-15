@@ -1,1 +1,1 @@
-# nftez
+# NFTez
