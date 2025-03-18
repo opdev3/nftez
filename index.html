@@ -6,17 +6,21 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="icon" type="image/png" href="./logo.png"/>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"/>
+    <link rel="icon" type="image/png" href="data:image/png;base64,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"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;display=swap"/>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.4/dist/css/bulma-switch.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
 
     <script src="https://cdn.jsdelivr.net/npm/bulma-toast@2.4.2/dist/bulma-toast.min.js"></script>
     <script src="https://unpkg.com/@airgap/beacon-sdk@4.3.3/dist/walletbeacon.min.js"></script>
 
     <style>
+
         .is-collapsible {
             height: auto;
             max-height: 0;
@@ -43,14 +47,13 @@
             background-color: #F5F5F5;
         }
 
-        @font-face {
-            font-family: "OCR A Std"; 
-            src: url(ocrastd.otf);
-        }
-
         .is-256x256 {
             width: 256px;
             height: 256px;
+        }
+        .is-512x512 {
+            width: 512px;
+            height: 512px;
         }
 
         .overflow-ellipsis {
@@ -71,7 +74,7 @@
         
         body, button, input, optgroup, select, textarea {
             min-width: 80px;
-            font-family: "OCR A Std";
+            font-family: "IBM Plex Mono";
             font-weight: 400;
         }
 
@@ -123,10 +126,9 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand ml-0 mr-5">
         <div class="navbar-item">
-            <img class="is-clickable is-unselectable" src="logo.png" onclick="window.location.search=''"/>
-            <p class="is-hidden title has-text-black is-3 is-clickable is-unselectable" onclick="window.location.search=''">ZeroTerminal
-                <sup id="titleNetwork" class="has-text-grey-dark has-text-weight-light is-size-7">&nbsp;mainnet</sup>
-            </p>
+            <img class="is-clickable is-unselectable" onclick="window.location.search=''" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAABXCAYAAABxyNlsAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAfxSURBVHgB7Z2/U9tYEMcXc8UVycRXJk1kMpOkS27SXHemT3JQkuZIk1yXZFJdhdPnx9EdUAAN3FWQgR7zBzCBEmYA0UCJZ2iugtuveU8jPyRLlvR+ZfjMGEm2YOwv633v7a5WQ+QIQRDUedOs1WoBbx/xA8eP5csJvxJeXFx0eNsZGhra5u3R+fk5ttthGHbIAYbIEkLMMRYTQo7dvHkzuH//PhVlb2+Pzs7Ouvss+jYEZ7G/stCrZAmj4kpB+YP/zo+mfP727du0tLRELDAV5fnz53R8fJz28ioLvWha6B/IACxqwBb6hncn6fLr3sOTJ09KCZsDfEPGRkZGQt5vs9AfWOiQNFMjjbCmzUajscEf7JAP31KCsGBzc5NOTk6oKHAJfay25y3xYxLvh4Wexz+dNKLFLQhLnaJLS62cqakpevbsWXSc4RKyWNBlyZVbLlvEGxb2G2kSFi4kLuza2loZYQEseePevXuTVDGVWS6slQep+fhApQOIiQEQwJW8fv26rLgRPMto8+NlVVZcieVKa9Ut7NOnTyNhwczMTGXCArz/Kq24lOViasVv5gtpcgFxIOrs7GyP1cbdgwZaBwcHH6gEhS1XuIENMiAsePXqVY/Vtlot0kyLv5ErYm5eiELiitnABov7mAwAUdVBbGtriwyA+fG3olO2gcWVwlLyel8LqpXOzc2RQbqft4jAA4lrQ1gMYph+SeB3qxzEclJI4NwDmg1hgTr10jyI9QUBIX6M5o265bZc9q8rZFhYdRDD1MsmGGPYwObznp9LXB41v5gavCQQFeJK2u02ra+vkwMgADSV58RMcbFAoMugi1HiwoLPnz+TQ7QQlMo6qa+4woH/RYZB0DzuW5eXl20MYn1h97CSNcDVMv7ABlng06dP0T4GMYjrIHXEUvqdkCqu8CsBGUZ3/KBKEItg4x1Lez1RXGHuxv0sREWUSwKrdWQQSwWxlbQlci3lF2C1hdfURVGnXnGhHQbz/0RDvCKusNpJMkxS/MBVd5DAmyTrvZKgFFZrnPfv3/cc37lzp5vOyQOCOJbdR11Ybyv+ZM/yVyxxD8kwzWaTPn78SGUYHR2N6hYs0eFcXCO+NO5xC7as9saNG/QdUFd9r+oWmmQBzArgY4sCt2DZaiVYzbbkQeQW2CNMDhKUuCYZdg2ImrWxH7kFlBjRNaVBZU+0jx+YRujO3OoAJVDxQLojREbaFXd4eLhJHoLiPSyPy/hrDdRlxKwrLkfXfyPPmJiYiFZz2GJe7ArsGprdrTg2GggvC8R88eJFdIzZhkurOTbWX7GtiWWbV+K6HoOQWRtYrndW60EMot5oNO6ye6h5JS5S6xIsHAzXMOSGdR2F5QbkCWog3cX0j4T9blDjH4/IAzCnVQPpcSt2kLs1dr7Gg+JFiE+9gO0ahizYaH+CW3BeXLWGAYOY6+kfguWSBz5XrWFwdRCLA4+g9WqeKsAg5noNQxrOi6sOYo7WMCTitLhJg5hHScuuuE5chKySFD/wYBDrwVlxPa1hiOCpWOikuJ7XMERgERGSY8RXXnAHPky9VFjXHSx/j8gh1PiBr1bLdOAWQnIED+MHqaBrSU20LnEC3+IHGXQHNCfE9TR+kEYnDMPtmqhtCskyPsYP0sAlVdjKFdpXsojaQ8HShXyVwTOFrp5dcdnvWutgpOJb/CAJ1rON7TB+1Ot19Ob6g3d/JAvI1DhyYrjYpEy/GwcIDw8P/8ROVIiHRj8+ljQ5yMLBwcFL7ERRMXbCpRo3XHMJu4Rpud9TWT4yMnJKDqZ9cNFfv75jDlXchGy1DXmgFj9DdSvV5UlgUYEpWlZDN9tXs0vYrfZ8+3uC5WzSuBTViSgZRMVFKHk65TlSiBfu7+8vxJ/oERcLCva9Vue8QF2tZYEr2h1wC4vqE1culWJxW7arzFVhEcyJdxl1kJC/9Qvqk1dyaKJhmbWZQ1qzIIeFBdNJjd4SE5Q2fa+HMQbMEBLbJiSKK4I5xq3Xx/QOG+K7tNdSU+v4b6C3IRnEQ6td6NfwuG/dAppGkiH34KHVYhDr++3uKy6cNP+Bl2QA36yWdRnP6laaWXEjzH6aNIKFgmdWi2bGmRmcXOVM7H/f6vS/apd9x+O506xHK8+JuWvFWNxxmb6omnhSEmDB4CirMLS8J+cWVyyNx8lAvk1z5/1CwLAGHX8GqnIUA9woVSyw2q4VhSEuMWgPR8nAJaRS4CpdBEKGcYHj1Y22EX3MBxYWDFMBOgzn3f7lAM9DPnxIFYF2LABuAbMFB3zvNOfDJvjj/kcFKN1tn7MXLaoowO5SO1fmXVrMIC+FLDfO6elp+9atWztsxb9QyRQRIl8OWC/c3jhb7D9UkkrK9rHQEH54kUqA8qV4Wt2C5U7z5/hZtlEpS2nLlXQuWWUrPhJXbRey4rj1InWDgc5AHYO01r+L+tckdN2bR7aBKuSLVd+L2YOmYDlmALlXXIOi9X5o4l4SSBuhE0luS8Y8N95hHwLv7u6mCoy7UiGPNgBdUZEUCDXe9c/IzeZEf8imaAoX5Pkd9K8Z5M5+eTriYc6KIjnku0IDt1I0fptENNfhDzjJD7QqCdLOU28Xk0UfcSHiIooNqxqo8mLtHpQAQqPZDnrCpA2CcBEPHjzo25JQcQsdcQ9KWOi2aUHjWBVXhcWGwIHoXnIXDSHwPAsVqOfiOi9+vnv3VH7ssJAhXd45NSRH+B/DKuT49uCWggAAAABJRU5ErkJggg=="/>
+            <p id="appTitle" class="is-hidden title has-text-black is-size-3 is-clickable is-unselectable" onclick="window.location.search=''"></p>
+            <p><sub id="titleNetwork" class="is-hidden is-unselectable has-text-grey-dark has-text-weight-light is-size-6">&nbsp;mainnet</sub></p>
         </div>
         <div id="btnBurger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="true" data-target="navbarMenu"
              onclick="this.classList.toggle('is-active'); document.getElementById('navbarMenu').classList.toggle('is-active');">
@@ -157,7 +159,7 @@
         </div>
 
         <div class="navbar-end ">
-            <div class="navbar-item m-1 has-dropdown is-hoverable">
+            <div id="btnMenuConfig" class="navbar-item m-1 has-dropdown is-hoverable">
                 <a class="navbar-item has-text-weight-semibold">
                     <span class="icon pr-2"><i class="fa-solid fa-gear"></i></span>
                 </a>
@@ -190,11 +192,11 @@
                     </a>
                     <hr class="navbar-divider has-background-grey-lighter"/>
                     <a id="btnMenuMyTokens" class="navbar-item">
-                        <span class="icon pr-2"><i class="fa-solid fa-square-binary"></i></span>
+                        <span class="icon pr-2"><i class="fas fa-photo-video"></i></span>
                         <span>My tokens</span>
                     </a>
                     <a id="btnMenuMyCollections" class="navbar-item">
-                        <span class="icon pr-2"><i class="fas fa-photo-video"></i></span>
+                        <span class="icon pr-2"><i class="fa-solid fa-folder-open"></i></span>
                         <span>My collections</span>
                     </a>
                     <a id="btnMenuMyListings" class="navbar-item">
@@ -223,6 +225,7 @@
             <h2 class="title">Active tokens</h2>
         </div>
     </div>
+    <div id="dMoreActiveLoader" class="is-hidden my-3 is-fullwidth is-flex is-justify-content-center"><span class="loader"></span></div>
     <div id="dActiveTokens" class="grid-tokens">
     
     </div>
@@ -772,7 +775,7 @@
     <div class="column">
         <div class="media is-relative">
             <figure class="media-content is-flex is-justify-content-center" style="overflow: clip;">
-                <p class="image is-256x256">
+                <p class="image is-512x512">
                     <img class="is-hidden js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
                     <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
                     <audio class="is-hidden mt-5 js-audio" controls style="width: 250px;"></audio>
@@ -785,7 +788,9 @@
                 <button id="btnTokenList" class="button has-text-weight-semibold js-loggedin">List</button>
                 <button id="btnTokenBurn" class="button has-text-weight-semibold js-loggedin">Burn</button>
                 <button id="btnTokenTransfer" class="button has-text-weight-semibold js-loggedin">Send</button>
-                <button id="btnTokenBuy" class="button has-text-weight-semibold js-loggedin" disabled=""><i class="fa-solid fa-cart-shopping mr-2"></i></button>
+                <button id="btnTokenBuy" class="button has-text-weight-semibold js-loggedin" disabled="" style="text-transform: lowercase;">
+                    <i class="fa-solid fa-cart-shopping mr-2"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -1068,7 +1073,8 @@
 </template>
 
 
-<script type="module" src="./index.js"></script>
+<script type="module" src="./index.js">
+</script>
 
 </body>
 </html>
