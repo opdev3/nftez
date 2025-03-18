@@ -1,1 +1,1 @@
-# NFTez
+# ZeroTerminal
