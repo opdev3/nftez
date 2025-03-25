@@ -225,7 +225,7 @@
             <h2 class="title">Active tokens</h2>
         </div>
     </div>
-    <div id="dMoreActiveLoader" class="is-hidden my-3 is-fullwidth is-flex is-justify-content-center"><span class="loader"></span></div>
+    <div id="dActiveTokensLoader" class="my-3 is-fullwidth is-flex is-justify-content-center"><span class="loader"></span></div>
     <div id="dActiveTokens" class="grid-tokens">
     
     </div>
@@ -241,6 +241,7 @@
             <h2 class="title">Collections</h2>
         </div>
     </div>
+    <div id="dCollectionsLoader" class="my-3 is-fullwidth is-flex is-justify-content-center"><span class="loader"></span></div>
     <!--<div id="dCollections" class="is-flex is-flex-wrap-wrap is-justify-content-space-evenly" style="flex-basis: 250px; gap: 16px;">-->
     <div id="dCollections" class="grid-collections">
 
@@ -367,6 +368,7 @@
             <h2 class="title">Listings</h2>
         </div>
     </div>
+    <div id="dListingsLoader" class="my-3 is-fullwidth is-flex is-justify-content-center"><span class="loader"></span></div>
     <div id="dListings" class="">
     
     </div>
@@ -534,6 +536,7 @@
             <h2 class="title">Tokens</h2>
         </div>
     </div>
+    <div id="dTokensLoader" class="my-3 is-fullwidth is-flex is-justify-content-center"><span class="loader"></span></div>
     <div id="dTokens" class="grid-tokens">
     
     </div>
@@ -683,9 +686,13 @@
         </div>
         <div class="media is-relative">
             <figure class="media-content is-flex is-justify-content-center">
-                <p class="image is-256x256">
-                    <img id="nftFileImage" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
-                </p>
+                <div id="nftPreviewContainer" class="image is-256x256">
+                    <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                    <object class="is-hidden js-svg-template" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data=""></object>
+                    <audio class="is-hidden mt-5 js-audio" controls style="width: 100%;"></audio>
+                    <video class="is-hidden js-video" autoplay loop controls muted style="max-width: 256px; max-height: 256px;"></video>
+                    <div class="is-hidden has-text-centered mt-5 js-data"><span class="icon is-large my-5"><i class="fa-solid fa-file is-size-1"></i></span><br/>data file</div>
+                </div>
             </figure>
         </div>
         <div class="field my-4 is-flex is-justify-content-center">
@@ -775,11 +782,21 @@
     <div class="column">
         <div class="media is-relative">
             <figure class="media-content is-flex is-justify-content-center" style="overflow: clip;">
-                <p class="image is-512x512">
-                    <img class="is-hidden js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
-                    <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
-                    <audio class="is-hidden mt-5 js-audio" controls style="width: 250px;"></audio>
-                    <video class="is-hidden mt-5 js-video" autoplay loop controls muted></video>
+                <p class="is-hidden image my-5 js-container-img" style="width: 100%; height: 100%; max-width: 512px; max-height: 512px;">
+                    <!--<img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>-->
+                    <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 512px; max-height: 512px;" src="" onerror="this.src=GRAY_RECT"/>
+                    <!--<object class="js-svg" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>-->
+                    <object class="js-svg" style="object-fit: contain; width: 100%; height: 100%; max-width: 512px; max-height: 512px; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
+                </p>
+                <p class="is-hidden image my-5 js-container-audio">
+                    <audio class="js-audio" controls style="width: 256px;"></audio>
+                </p>
+                <p class="is-hidden image my-5 js-container-video">
+                    <video class="js-video" autoplay loop controls muted style="max-width: 256px; max-height: 256px;"></video>
+                </p>
+                <p class="is-hidden image my-5 has-text-centered js-container-data">
+                    <span class="icon is-large my-5"><i class="fa-solid fa-file is-size-1"></i></span>
+                    <br/>data file
                 </p>
             </figure>
         </div>
@@ -1009,10 +1026,11 @@
     <div class="card-image">
         <a class="js-token-item" href="">
             <p class="image is-256x256">
-                <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                <img class="js-img is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
                 <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
                 <span class="icon is-large m-3 is-hidden js-audio"><i class="fa-solid fa-music is-size-1"></i></span>
                 <span class="icon is-large m-3 is-hidden js-video"><i class="fa-solid fa-film is-size-1"></i></span>
+                <span class="icon is-large m-3 is-hidden js-data"><i class="fa-solid fa-file is-size-1"></i></span>
             </p>
         </a>
     </div>
@@ -1039,10 +1057,11 @@
             <figure class="media-left">
                 <a class="js-token-item" href="">
                     <p class="image is-128x128 has-text-centered">
-                        <img class="js-img" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
+                        <img class="js-img is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%;" src="" onerror="this.src=GRAY_RECT"/>
                         <object class="js-svg is-hidden" style="object-fit: contain; width: 100%; height: 100%; max-width: 100%; max-height: 100%; pointer-events: none;" type="image/svg+xml" data="" onerror="this.data=GRAY_RECT"></object>
                         <span class="icon is-large mt-2 is-hidden js-audio"><i class="fa-solid fa-music is-size-1"></i></span>
                         <span class="icon is-large mt-2 is-hidden js-video"><i class="fa-solid fa-film is-size-1"></i></span>
+                        <span class="icon is-large mt-2 is-hidden js-data"><i class="fa-solid fa-file is-size-1"></i></span>
                     </p>
                 </a>
             </figure>
